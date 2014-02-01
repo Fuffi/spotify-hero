@@ -1,11 +1,10 @@
 require([
   '$api/models',
   'scripts/language-example',
-  'scripts/cover-example',
   'scripts/current-song'
-], function(models, languageExample, coverExample, buttonExample, playlistExample) {
+], function(models, languageExample, currentSong) {
   'use strict';
 
   languageExample.doHelloWorld();
-  coverExample.doCoverForAlbum();
+  currentSong.nowPlaying();
 });
