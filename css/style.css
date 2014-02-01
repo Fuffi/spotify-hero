@@ -6,3 +6,16 @@
   left: 0;
   z-index: -1000;
 }
+
+#now-playing-tabs {
+  position: absolute;
+  bottom: 10%;
+  width: 500px;
+  text-align: center;
+  left: 50%;
+  margin-left: -250px;
+}
+
+.tabs-image {
+  width: 400px;
+}
