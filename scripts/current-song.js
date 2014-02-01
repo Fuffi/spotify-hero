@@ -12,6 +12,8 @@ require([
 
     var tabs = loadTabs();
 
+    var currentTrack = null;
+
     function updateStatus(track) {
       if (track === null) {
         nowPlayingTitle.innerHTML = 'No track currently playing';
@@ -52,20 +54,42 @@ require([
       window.setInterval(function() {
         updateTab(p.position / 1000);
         nowPlayingPosition.innerHTML = 'Current position: ' + (p.position / 1000);
-      }, 1000);
+      }, 2000);
     });
 
     function updateTab(positionInSeconds) {
-      var currentTabIndex = Math.floor(positionInSeconds / 2);
+      var newTabIndex = Math.floor(positionInSeconds / 2);
+      if(newTabIndex === currentTabIndex) return;
+
+      var currentTabIndex = newTabIndex;
       var currentTab = tabs[currentTabIndex];
       console.log(currentTabIndex, currentTab.image);
-      nowPlayingTabs.innerHTML = '';
-      nowPlayingTabs.appendChild(currentTab.image);
+      $( nowPlayingTabs ).find("img").animate({
+        opacity: 0
+      }, 200, function() {
+        $(nowPlayingTabs).html("");
+        nowPlayingTabs.appendChild(currentTab.image);
+        $( currentTab.image ).animate({
+          opacity: 1
+        }, 500, function() {
+          // Animation complete.
+        });
+      });
+
+      
+
+      
     }
 
     // update on change
     models.player.addEventListener('change', function(p) {
-      updateStatus(p.data.track);
+      var track = p.data.track;
+
+      if (currentTrack != track) {
+        console.log("TRYING UPDATE");
+        currentTrack = track;
+        updateStatus(track);
+      }
     });
   }
 
