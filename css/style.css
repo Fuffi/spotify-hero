@@ -1,1 +1,8 @@
 /* Include your CSS rules here */
+
+#now-playing-artist {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1000;
+}

@@ -5,19 +5,30 @@ require([
   'use strict';
   var nowPlaying = function() {
     var currentTrack = null;
+    var nowPlayingTitle = document.getElementById('now-playing-title');
+    var nowPlayingCover = document.getElementById('now-playing-cover');
+    var nowPlayingArtist = document.getElementById('now-playing-artist');
+    var nowPlayingPosition = document.getElementById('now-playing-position');
 
     function updateStatus(track) {
       if (track === null) {
         nowPlayingTitle.innerHTML = 'No track currently playing';
       } else {
         track.load(['album', 'name']).done( function() {
-          var nowPlayingTitle = document.getElementById('now-playing');
-          var nowPlayingCover = document.getElementById('now-playing-cover');
 
-          var image = Image.forAlbum(track.album, {width: 200, height: 200, player: true});
+          var image = Image.forAlbum(track.album, {width: 200, height: 200});
           nowPlayingTitle.innerHTML = 'Now playing: ' + track.name;
           nowPlayingCover.appendChild(image.node);
+
+          track.load('artists').done(onArtistsLoad);
         });
+      }
+
+      function onArtistsLoad(t) {
+        var artist = t.artists[Math.floor(Math.random() * t.artists.length)];
+        var image = Image.forArtist(artist, {width: window.innerWidth, height: window.innerHeight});
+        nowPlayingArtist.appendChild(image.node);
+        console.log(image);
       }
     }
 
@@ -26,7 +37,6 @@ require([
     });
 
     models.player.load('position').done(function(p) {
-      var nowPlayingPosition = document.getElementById('now-playing-position');
       window.setInterval(function() {
         nowPlayingPosition.innerHTML = 'Current position: ' + (p.position / 1000);
       }, 1000);
