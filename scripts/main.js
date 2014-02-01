@@ -1,10 +1,8 @@
 require([
   '$api/models',
-  'scripts/language-example',
   'scripts/current-song'
-], function(models, languageExample, currentSong) {
+], function(models, currentSong) {
   'use strict';
 
-  languageExample.doHelloWorld();
   currentSong.nowPlaying();
 });

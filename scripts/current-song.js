@@ -13,11 +13,19 @@ require([
         var image = Image.forAlbum(track.album, {width: 200, height: 200, player: true});
         document.getElementById('now-playing-cover').appendChild(image.node);
       }
+
+
     }
 
-    // update on load
     models.player.load('track').done(function(p) {
       updateStatus(p.track);
+    });
+
+    models.player.load('position').done(function(p) {
+      var nowPlayingPosition = document.getElementById('now-playing-position');
+      window.setInterval(function() {
+        nowPlayingPosition.innerHTML = 'Current position: ' + (p.position / 1000);
+      }, 1000);
     });
 
     // update on change
