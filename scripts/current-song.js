@@ -4,15 +4,19 @@ require([
 ], function(models, Image) {
   'use strict';
   var nowPlaying = function() {
+    var currentTrack = null;
+
     function updateStatus(track) {
-      var nowPlayingTitle = document.getElementById('now-playing');
       if (track === null) {
         nowPlayingTitle.innerHTML = 'No track currently playing';
       } else {
         track.load(['album', 'name']).done( function() {
-          nowPlayingTitle.innerHTML = 'Now playing: ' + track.name;
+          var nowPlayingTitle = document.getElementById('now-playing');
+          var nowPlayingCover = document.getElementById('now-playing-cover');
+
           var image = Image.forAlbum(track.album, {width: 200, height: 200, player: true});
-          document.getElementById('now-playing-cover').appendChild(image.node);
+          nowPlayingTitle.innerHTML = 'Now playing: ' + track.name;
+          nowPlayingCover.appendChild(image.node);
         });
       }
     }
