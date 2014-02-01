@@ -2,6 +2,7 @@ require([
   '$api/models',
   '$views/image#Image'
 ], function(models, Image) {
+  'use strict';
   var nowPlaying = document.getElementById('now-playing');
 
   function updateStatus(track) {
