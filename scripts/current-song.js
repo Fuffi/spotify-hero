@@ -9,12 +9,12 @@ require([
       if (track === null) {
         nowPlayingTitle.innerHTML = 'No track currently playing';
       } else {
-        nowPlayingTitle.innerHTML = 'Now playing: ' + track.name;
-        var image = Image.forAlbum(track.album, {width: 200, height: 200, player: true});
-        document.getElementById('now-playing-cover').appendChild(image.node);
+        track.load(['album', 'name']).done( function() {
+          nowPlayingTitle.innerHTML = 'Now playing: ' + track.name;
+          var image = Image.forAlbum(track.album, {width: 200, height: 200, player: true});
+          document.getElementById('now-playing-cover').appendChild(image.node);
+        });
       }
-
-
     }
 
     models.player.load('track').done(function(p) {
